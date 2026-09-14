@@ -15,33 +15,6 @@
       min-height: 100vh;
     }
 
-    /* Pantalla de "gira tu teléfono" */
-    #rotate-warning {
-      position: fixed;
-      inset: 0;
-      background: #0d0d1a;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      z-index: 999;
-      padding: 20px;
-    }
-    #rotate-warning .phone {
-      font-size: 60px;
-      margin-bottom: 15px;
-      animation: shake 1.5s infinite;
-    }
-    #rotate-warning h2 { font-size: 22px; margin-bottom: 8px; }
-    #rotate-warning p { font-size: 15px; color: #aaa; }
-
-    @keyframes shake {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(90deg); }
-      75% { transform: rotate(90deg); }
-    }
-
     /* Sección del video */
     #video-section {
       min-height: 100vh;
@@ -79,23 +52,9 @@
       z-index: 100;
       box-shadow: 0 5px 15px rgba(255,182,193,0.4);
     }
-
-    @media (orientation: landscape) {
-      #rotate-warning { display: flex; }
-    }
-    @media (orientation: portrait) {
-      #rotate-warning { display: none; }
-    }
   </style>
 </head>
 <body>
-
-  <!-- Aviso de girar el teléfono -->
-  <div id="rotate-warning">
-    <div class="phone">📱</div>
-    <h2>¡Gira tu teléfono!</h2>
-    <p>Ponlo en horizontal para verlo mejor 💕</p>
-  </div>
 
   <!-- Botón para iniciar el video -->
   <button id="start-btn">▶️ Iniciar video</button>
@@ -111,19 +70,13 @@
   </section>
 
   <script>
-    // Iniciar el video al tocar el botón (los celulares no dejan que suene solo)
+    // Iniciar el video al tocar el botón
     const video = document.getElementById('main-video');
     const startBtn = document.getElementById('start-btn');
     startBtn.addEventListener('click', () => {
       video.muted = false;
       video.play();
       startBtn.style.display = 'none';
-    });
-
-    // Ocultar el aviso de girar cuando esté en vertical
-    window.addEventListener('resize', () => {
-      const warn = document.getElementById('rotate-warning');
-      warn.style.display = (window.innerHeight > window.innerWidth) ? 'none' : 'flex';
     });
   </script>
 </body>
