@@ -25,50 +25,55 @@
       background: #000;
     }
 
-    /* contain = se ve completo, sin recortar (deja franjas negras si no es la misma proporción) */
+    /* contain = se ve completo, sin recortar */
     .video-full video {
       width: 100%;
       height: 100%;
       object-fit: contain;
+      pointer-events: none; /* para que el toque vaya a la pantalla, no al video */
     }
 
-    /* Botón abajo, centrado */
-    #start-btn {
+    /* Mensajito de "toca para pausar" abajo */
+    #hint {
       position: fixed;
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
-      background: #ffb6c1;
-      color: #0d0d1a;
-      border: none;
-      padding: 14px 28px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      font-family: 'Segoe UI', Arial, sans-serif;
       z-index: 100;
-      box-shadow: 0 5px 15px rgba(255,182,193,0.4);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
     }
   </style>
 </head>
 <body>
 
-  <div class="video-full">
+  <div class="video-full" id="screen">
     <video id="main-video" muted loop playsinline>
       <source src="mi Video 2026-09-14 at 9.45.14 PM.mp4" type="video/mp4">
       Tu navegador no soporta el video.
     </video>
   </div>
 
-  <button id="start-btn">▶️ Iniciar video</button>
+  <div id="hint">Toca la pantalla para pausar / reanudar 💕</div>
 
   <script>
     const video = document.getElementById('main-video');
-    const startBtn = document.getElementById('start-btn');
-    startBtn.addEventListener('click', () => {
-      video.muted = false;
-      video.play();
-      startBtn.style.display = 'none';
+    const screen = document.getElementById('screen');
+    const hint = document.getElementById('hint');
+
+    // Primer toque: inicia el video con sonido
+    // Toques siguientes: pausa o reanuda
+    screen.addEventListener('click', () => {
+      if (video.paused) {
+        video.muted = false;
+        video.play();
+        hint.style.display = 'none';
+      } else {
+        video.pause();
+        hint.textContent = 'Toca para reanudar ▶️';
+      }
     });
   </script>
 </body>
